@@ -10,7 +10,7 @@ Disposable Windows sandboxes for Pi with OpenRouter.
 * **Docker Desktop** — only needed to build the custom Pi template
 * OpenRouter API key
 
-`sbx` itself does **not** require Docker Desktop, Docker Engine, or WSL. Docker Desktop is required here because we use `docker build` to create the Pi template. ([docs.docker.com](https://docs.docker.com/ai/sandboxes/customize/templates/?utm_source=chatgpt.com))
+`sbx` itself does **not** require Docker Desktop, Docker Engine, or WSL. Docker Desktop is required here because we use `docker build` to create the Pi template. ([docs.docker.com](https://docs.docker.com/ai/sandboxes/customize/templates/))
 
 ## 1. Enable virtualization
 
@@ -50,7 +50,7 @@ setx SBX_NO_TELEMETRY 1
 .\scripts\build.ps1
 ```
 
-SBX can use locally loaded images as templates without pulling them from a registry. ([docs.docker.com](https://docs.docker.com/ai/sandboxes/customize/templates/?utm_source=chatgpt.com))
+SBX can use locally loaded images as templates without pulling them from a registry. ([docs.docker.com](https://docs.docker.com/ai/sandboxes/customize/templates/))
 
 ## 5. Configure OpenRouter
 
@@ -66,7 +66,7 @@ It is good practice to set an expiry on your key.
 sbx secret set openrouter
 ```
 
-The API key is stored outside the sandbox and injected by the SBX credential proxy. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/secret/?utm_source=chatgpt.com))
+The API key is stored outside the sandbox and injected by the SBX credential proxy. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/secret/))
 
 ## 6. Run Pi
 
@@ -84,7 +84,7 @@ Each invocation creates a **fresh sandbox** from the Pi template:
 * no Pi/npm installation occurs
 * sandbox state is disposable
 
-SBX supports custom templates with `--template`, and workspace directories are mounted into the sandbox. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/create/?utm_source=chatgpt.com))
+SBX supports custom templates with `--template`, and workspace directories are mounted into the sandbox. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/create/))
 
 ## 7. Network
 
@@ -137,4 +137,4 @@ sbx template load
    sandbox deleted
 ```
 
-The **template persists**; each **sandbox does not**. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/template/save/?utm_source=chatgpt.com))
+The **template persists**; each **sandbox does not**. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/template/save/))
