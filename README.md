@@ -16,7 +16,7 @@ Disposable Windows sandboxes for Pi with OpenRouter.
 
 Open **PowerShell as Administrator**:
 
-```powershell id="9qiqi9"
+```powershell
 Enable-WindowsOptionalFeature -Online -FeatureName HypervisorPlatform -All
 ```
 
@@ -24,7 +24,11 @@ Reboot.
 
 ## 2. Install Docker Desktop
 
-Install Docker Desktop for Windows and start it.
+Install Docker Desktop for Windows and start it. You can use WSL2 as the backend.
+
+Under "Settings" / "General", un-check "Send usage statistics".
+
+Under "Settings" / "AI", un-check "Enable Gordon".
 
 Docker Desktop is only used to build the Pi template; `sbx` does not depend on Docker Desktop at runtime.
 
@@ -34,46 +38,43 @@ Install the current Windows `sbx` release.
 
 Then:
 
-```powershell id="f683tm"
+```powershell
 sbx version
 sbx login
+setx SBX_NO_TELEMETRY 1
 ```
 
 ## 4. Build the Pi template
 
-```powershell id="t2a8f0"
+```powershell
 .\scripts\build.ps1
-```
-
-The script should:
-
-1. Build the Dockerfile.
-2. Save the resulting image to a `.tar`.
-3. Load the image into the SBX runtime with `sbx template load`.
-
-For example:
-
-```powershell id="pb292w"
-docker build -t pi-sbx:local .
-docker image save pi-sbx:local -o pi-sbx.tar
-sbx template load pi-sbx.tar
 ```
 
 SBX can use locally loaded images as templates without pulling them from a registry. ([docs.docker.com](https://docs.docker.com/ai/sandboxes/customize/templates/?utm_source=chatgpt.com))
 
 ## 5. Configure OpenRouter
 
-```powershell id="uszrlx"
-sbx secret set -g openrouter
+Sign up for OpenRouter, and under "Preferences" / "Privacy", turn on Zero Data Retention for all providers. Un-check "Allow free endpoints that train on request data".
+
+On OpenRouter, select "Get API Key", and enter a sufficiently small key limit such as $20. You can set a reset schedule for the credit limit, such as monthly.
+
+Note: you must copy your key immediately as you are generating it. If you forget to do so, no big deal - just create another one.
+
+It is good practice to set an expiry on your key.
+
+```powershell
+sbx secret set openrouter
 ```
 
 The API key is stored outside the sandbox and injected by the SBX credential proxy. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/secret/?utm_source=chatgpt.com))
 
 ## 6. Run Pi
 
-```powershell id="co69xp"
+```powershell
 .\scripts\run.ps1 C:\code\my-project
 ```
+
+Use the "Locked Down" network policy to deny all network traffic by default, unless explicitly allowed.
 
 Each invocation creates a **fresh sandbox** from the Pi template:
 
@@ -97,13 +98,13 @@ Because Pi is baked into the template, the sandbox does not need npm access at r
 
 For an interrupted session:
 
-```powershell id="lhhu0l"
+```powershell
 .\scripts\cleanup.ps1
 ```
 
 ## Files
 
-```text id="ie3id7"
+```text
 README.md
 Dockerfile
 spec.yaml
@@ -115,7 +116,7 @@ scripts/
 
 ## Lifecycle
 
-```text id="tgafux"
+```text
 Dockerfile
     ↓
 Docker Desktop: docker build

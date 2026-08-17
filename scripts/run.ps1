@@ -14,7 +14,7 @@ try {
         --name $Name `
         --kit $Repo `
         --template pi-sbx:local `
-        pi `
+        pi-openrouter `
         $Project
 }
 finally {
