@@ -1,0 +1,27 @@
+schemaVersion: "2"
+kind: sandbox
+
+name: pi-openrouter
+displayName: Pi + OpenRouter
+description: Disposable Pi sandbox with OpenRouter-only network access
+
+sandbox:
+  image: pi-sbx:local
+  aiFilename: AGENTS.md
+  entrypoint:
+    run:
+      - pi
+
+network:
+  allowedDomains:
+    - openrouter.ai
+
+credentials:
+  sources:
+    openrouter:
+      env:
+        - OPENROUTER_API_KEY
+
+environment:
+  proxyManaged:
+    - OPENROUTER_API_KEY
