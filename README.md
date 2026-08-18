@@ -82,7 +82,7 @@ Each invocation creates a **fresh sandbox** from the Pi template:
 * project is mounted read/write
 * OpenRouter is available
 * no Pi/npm installation occurs
-* sandbox state is disposable
+* sandbox state is disposable, except session history, which is persisted on the host (see step 8)
 
 SBX supports custom templates with `--template`, and workspace directories are mounted into the sandbox. ([docs.docker.com](https://docs.docker.com/reference/cli/sbx/create/))
 
@@ -92,7 +92,17 @@ The sandbox should use a deny-by-default policy with **only OpenRouter allowed**
 
 Because Pi is baked into the template, the sandbox does not need npm access at runtime.
 
-## 8. Cleanup
+## 8. Session persistence
+
+`run.ps1` persists Pi session history on the host at `~/.pi-sbx-sessions` (mounted as an extra workspace, with `pi --session-dir` pointing at it) so `/resume` works across disposable sandboxes.
+
+To wipe session history:
+
+```powershell
+Remove-Item -Recurse $env:USERPROFILE\.pi-sbx-sessions
+```
+
+## 9. Cleanup
 
 `run.ps1` destroys the sandbox when Pi exits.
 
